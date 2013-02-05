@@ -1,0 +1,41 @@
+    LAYER
+        MAXSCALEDENOM 33554432
+        MINSCALEDENOM 16777216
+        NAME 'land5'
+        TYPE POLYGON
+        GROUP 'default'
+        STATUS ON
+        PROJECTION
+            'init=epsg:4326'
+        END
+        PROCESSING 'LABEL_NO_CLIP=ON'
+        PROCESSING 'CLOSE_CONNECTION=DEFER'
+        DATA '50m_physical/ne_50m_land'
+        CLASS
+            STYLE
+                COLOR '#EEECDF'
+                OUTLINECOLOR 200 200 200
+                OUTLINEWIDTH 0.5
+            END
+        END
+    END
+    # This is a single line comment that will be outputted
+    LAYER
+        MAXSCALEDENOM 33554432
+        MINSCALEDENOM 16777216
+        NAME 'lakes5'
+        TYPE POLYGON
+        GROUP 'default'
+        STATUS ON
+        PROJECTION
+            'init=epsg:4326'
+        END
+        PROCESSING 'LABEL_NO_CLIP=ON'
+        PROCESSING 'CLOSE_CONNECTION=DEFER'
+        DATA '50m_physical/ne_50m_lakes'
+        CLASS
+            STYLE
+                COLOR '#C6E2F2'
+            END
+        END
+    END

@@ -1,0 +1,20 @@
+VARIABLES {
+    connection {
+        CONNECTION: "host=localhost dbname=mydb user=username password=pword port=5432"
+        CONNECTIONTYPE: POSTGIS
+    }
+    layerconfig {
+        GROUP: 'default'
+        STATUS: ON
+        PROJECTION {{
+            'init=epsg:4326'
+        }}
+        PROCESSING: 'LABEL_NO_CLIP=ON'
+        PROCESSING: 'CLOSE_CONNECTION=DEFER'
+    }
+    water_clr: '#C6E2F2'
+    land_ol_width {
+        1-4: 1
+        5-8: 0.5 
+    }
+}

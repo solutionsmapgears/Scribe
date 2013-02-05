@@ -1,0 +1,22 @@
+    LAYER
+        MAXSCALEDENOM 268435456
+        MINSCALEDENOM 134217728
+        NAME 'land2'
+        TYPE POLYGON
+        GROUP 'default'
+        STATUS ON
+        PROJECTION
+            'init=epsg:4326'
+        END
+        PROCESSING 'LABEL_NO_CLIP=ON'
+        PROCESSING 'CLOSE_CONNECTION=DEFER'
+        DATA '110m_physical/ne_110m_land'
+        CLASS
+            STYLE
+                COLOR '#EEECDF'
+                OUTLINECOLOR 200 200 200
+                OUTLINEWIDTH 1
+            END
+        END
+    END
+    # This is a single line comment that will be outputted

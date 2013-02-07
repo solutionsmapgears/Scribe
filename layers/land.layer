@@ -1,0 +1,22 @@
+LAYER {
+    1-16 {
+        NAME: 'land'            
+        TYPE: POLYGON
+        @layerconfig
+        DATA {
+            1-4: '110m_physical/ne_110m_land'
+            5-10: '50m_physical/ne_50m_land'
+            11-16: '10m_physical/ne_10m_land'
+        }
+        CLASS {
+            STYLE {
+                COLOR: '#EEECDF'
+                OUTLINECOLOR: 200 200 200
+                OUTLINEWIDTH: @land_ol_width 
+            }
+        }
+    }
+}
+## This is a single line comment that will be outputted
+/*This is a multiline comment 
+that won't be outputted*/

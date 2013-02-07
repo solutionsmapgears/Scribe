@@ -16,20 +16,21 @@ python decoder.py -n outputmapname
         -i/--input: (default ./) Input directory
         -o/--output: (default ./result/) Output directory
         -t/--tabulation: (default 4) Number of spaces to use as tabulation
+        -f/--file: (default config) Config file. Path can be absolute or relative to the scribe.py file.
 
     Other options
     -------------
-        -c/--clean: If this option is specified, the layers from each scale level are included in the output mapfile with 'INCLUDE' tags. If not specified, the content of each scale level is
-                    outputted directly in the resulting mapfile.  
+        -c/--clean: If this option is specified, the layers from each scale level are included in the output mapfile with 'INCLUDE' tags. If not specified, the content of each scale level is outputted directly in the resulting mapfile.  
     
-Input    
+Input
 -----
 
 The following files should be present in the input directory <br />
     * scales: contains the scale levels and denominators (MINSCALEDENOM <br />
     * variables: contains variables that can be called as follow : @myvariable <br />
     * map: contains everything inside the MAP tag that is not a LAYER <br />
-    * layers: contains the layers
+    * Any ".layer" file: contain the layers
+    * Any config file: indicates the order in which the ".layer" files should be included
 
     Example for file 'scales'
     -------------------------
@@ -108,45 +109,43 @@ The following files should be present in the input directory <br />
 
         * IMAGECOLOR will take the value  of the 'water_clr' variable
 
-    Example for file 'layers'
-    -------------------------
-        LAYERS {
-            LAYER {
-                1-16 {
-                    NAME: 'land'
-                    TYPE: POLYGON
-                    @layerconfig
-                    DATA {
-                        1-4: '110m_physical/ne_110m_land'
-                        5-10: '50m_physical/ne_50m_land'
-                        11-16: '10m_physical/ne_10m_land'
-                    }
-                    CLASS {
-                        STYLE {
-                            COLOR: '#EEECDF'
-                            OUTLINECOLOR: 200 200 200
-                            OUTLINEWIDTH: @land_ol_width 
-                        }
+    Example of a '.layer' file
+    ----------------------------
+        LAYER {
+            1-16 {
+                NAME: 'land'
+                TYPE: POLYGON
+                @layerconfig
+                DATA {
+                    1-4: '110m_physical/ne_110m_land'
+                    5-10: '50m_physical/ne_50m_land'
+                    11-16: '10m_physical/ne_10m_land'
+                }
+                CLASS {
+                    STYLE {
+                        COLOR: '#EEECDF'
+                        OUTLINECOLOR: 200 200 200
+                        OUTLINEWIDTH: @land_ol_width 
                     }
                 }
             }
-            ## This is a single line comment that will be outputted
-            /*This is a multiline comment 
-            that won't be outputted*/
-            LAYER {
-                4-16 {
-                    NAME: 'lakes' //Another type of single line comment that won't be outputted
-                    TYPE: POLYGON
-                    @layerconfig
-                    DATA {
-                        1-4: '110m_physical/ne_110m_lakes'
-                        5-15: '50m_physical/ne_50m_lakes'
-                        16: '10m_physical/ne_10m_lakes'
-                    }
-                    CLASS {
-                        STYLE {
-                            COLOR: @water_clr
-                        }
+        }
+        ## This is a single line comment that will be outputted
+        /*This is a multiline comment 
+        that won't be outputted*/
+        LAYER {
+            4-16 {
+                NAME: 'lakes' //Another type of single line comment that won't be outputted
+                TYPE: POLYGON
+                @layerconfig
+                DATA {
+                    1-4: '110m_physical/ne_110m_lakes'
+                    5-15: '50m_physical/ne_50m_lakes'
+                    16: '10m_physical/ne_10m_lakes'
+                }
+                CLASS {
+                    STYLE {
+                        COLOR: @water_clr
                     }
                 }
             }

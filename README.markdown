@@ -110,7 +110,7 @@ The following files should be present in the input directory <br />
         * IMAGECOLOR will take the value  of the 'water_clr' variable
 
     Example of a '.layer' file
-    ----------------------------
+    --------------------------
         LAYER {
             1-16 {
                 NAME: 'land'
@@ -382,7 +382,8 @@ Documentation
 
     a-b: Means from scale level 'a' to scale level 'b'. For a single scale level, write 'a' only. Scale levels can be followed by ':' as well as '{' (but never both at once).                 
 
-    ##: Single line comment (is outputted in the resulting mapfile). Cannot be on the same line as uncommented text.    
+    ##: Single line comment (is outputted in the resulting mapfile). Cannot be on the same line as uncommented text. Those comments fail when in a list of scales (see
+        DATA tag in 'Example of a '.layer' file' above)
 
     //: Single line comment (is not outputted in the resulting mapfile) 
 

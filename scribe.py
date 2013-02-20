@@ -151,9 +151,9 @@ def parseVariable(value):
 
 def scaleToScaleList(scale, minScale, maxScale):
     scales = {}
-    if re.match(r"[0-9]{1,2}:{1}[0-9]{1,2}", scale):
-        s1 = int(re.search('(?<!:)\w+', scale).group(0))
-        s2 = int(re.search('(?<=:)\w+', scale).group(0))
+    if re.match(r"[0-9]{1,2}\-{1}[0-9]{1,2}", scale):
+        s1 = int(re.search('(?<!\-)\w+', scale).group(0))
+        s2 = int(re.search('(?<=\-)\w+', scale).group(0))
         for i in range(s1, s2 + 1):
             if (i >= minScale) and (i <= maxScale):
                 scales[str(i)] = SCALES[str(i)]
@@ -165,7 +165,7 @@ def scaleToScaleList(scale, minScale, maxScale):
     return scales
 
 def isScale(string):
-    if re.match(r"[0-9]+(:[0-9]+)*", string):
+    if re.match(r"[0-9]+(\:[0-9]+)*", string):
         return True
     else:
         return False
@@ -345,7 +345,7 @@ def string2json(string):
     t = re.sub(r"\}\n*\s*\]\},\{\"VARIABLES\"", "}],\"VARIABLES\"", t)
     t = re.sub(r"^\s*\n*{\"", "", t)
     #Replace the - between scales values with :
-    t = re.sub(r"(?<=[0-9])-(?=[0-9])", ":", t)
+    #t = re.sub(r"(?<=[0-9])-(?=[0-9])", ":", t)
     #Add {" before scale levels tag
     t = re.sub(r"\s(?=([0-9]|[0-9]{2})+\":)", "{\"", t)
     #Add {" at the beginning of the string and return a valid JSON string

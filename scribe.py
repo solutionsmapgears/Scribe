@@ -417,13 +417,13 @@ def main():
     else:
         error += "File 'map' not found\n."
 
-    if configFile[:1] == "/":
-        configFilePath = configFile
-    else:
-        configFilePath = inputDirectory + configFile
+    #if configFile[:1] == "/":
+    #    configFilePath = configFile
+    #else:
+    #    configFilePath = inputDirectory + configFile
 
-    if os.path.isfile(configFilePath):
-        inputConfigFile = codecs.open(configFilePath, encoding='utf8')
+    if os.path.isfile(configFile):
+        inputConfigFile = codecs.open(configFile, encoding='utf8')
         inputConfigContent = inputConfigFile.read()
         inputConfigFile.close()
 
@@ -433,13 +433,18 @@ def main():
         
         for i in range(0, len(jsonConfig["ORDER"])):
             for j in jsonConfig["ORDER"][i]:
-                if (os.path.isfile(jsonConfig["ORDER"][i][j])):
+                if jsonConfig["ORDER"][i][j][:1] == "/":
+                    layerFilePath = jsonConfig["ORDER"][i][j]
+                else:
+                    layerFilePath = inputDirectory + jsonConfig["ORDER"][i][j]
+
+                if (os.path.isfile(layerFilePath)):
                     if (int(j) > 0 and int(j) <= len(jsonConfig["ORDER"])):
-                        groupFiles[int(j)] = jsonConfig["ORDER"][i][j];
+                        groupFiles[int(j)] = layerFilePath;
                     else:
                         error += "Index " + j + " out of bounds in config file.\n" 
                 else:
-                    error += "File '" +  jsonConfig["ORDER"][i][j] + "' not found.\n"
+                    error += "File '" +  layerFilePath + "' not found.\n"
 
         for i in range(0, len(groupFiles)):
             if (os.path.isfile(groupFiles[i])):

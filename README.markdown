@@ -8,7 +8,7 @@ with the use of variables.
 Utilisation
 -----------
 
-python decoder.py -n outputmapname
+python scribe.py -n outputmapname
        
     Optional parameters
     -------------------
@@ -349,7 +349,7 @@ Installation
 
     Requirements
     ------------
-    1) Python 2.x installed. Tested with 2.7 only but should work with previous versions.
+    1) Python 2.7 installed. Doesn't work with 2.6.
     
     2) Any version of Mapserver.
 

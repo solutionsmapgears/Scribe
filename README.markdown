@@ -5,7 +5,7 @@ Scribe is a program written in Python to help the creation of mapfiles with diff
 is made easy with scale tags that can be nested inside any regular mapfile tag. Also, the creation of mapfiles becomes much faster 
 with the use of variables.
 
-Utilisation
+Usage
 -----------
 
 python scribe.py -n outputmapname
@@ -375,7 +375,7 @@ Documentation
     {{}}: Signifies the start and the end of a Mapserver block tag as well as a scale block the tag. The difference  with {} is that those block tags contain
         no parameter (PROJECTION, METADATA, PATTERN etc.), only plain text.
     
-    ':': Used to split parameters from their value
+    ':': Used to separate parameters from their value
 
     @: References a variable. Can be used after : or without parameter. In this case, the variable referenced must be a list of parameter:value. See the examples above.
        A variable can refer to another variable but cannot refer to itself.

@@ -7,6 +7,15 @@ import getopt, sys, traceback
 import os.path
 import codecs
 
+"""
+This script parses files with the scribe syntax, transform them
+into a single json file and then into mapfiles. Read the
+README for more information on the scribe syntax.
+
+Author : Charles-Éric Bourget
+Updated: 21/06/2013
+"""
+
 def parseDict(data, scales, files, indentation):
     for d in data:
         dType =  type(data[d])
@@ -51,6 +60,7 @@ def parseDict(data, scales, files, indentation):
             if isScale(value) == False:
                 write(d + " " + value, scales, files, indentation)
 
+
 def parseList(d, data, scales, files, indentation, close=True):
     if (closeTag(data) == True and isScale(d) == False and isScaleList(data) == False and d != "VARIABLE" and close == True):
         write(d, scales, files, indentation)
@@ -75,6 +85,7 @@ def parseList(d, data, scales, files, indentation, close=True):
     if (closeTag(data) == True and isScale(d) == False and isScaleList(data) == False and close == True):
         indentation = substractIndentation(indentation, INDENTATION)
         write("END", scales, files, indentation)
+
 
 def parseScaleList(d, data, files, minScale, maxScale, indentation, close=True):
     for item in data:
@@ -109,6 +120,7 @@ def parseScaleList(d, data, files, minScale, maxScale, indentation, close=True):
             indentation = substractIndentation(indentation, INDENTATION)
             write("END", scales, files, indentation) 
 
+
 def parseScale(scale, data, files, minScale, maxScale, indentation):
     scales = scaleToScaleList(scale, minScale, maxScale)
 
@@ -140,12 +152,14 @@ def parseScale(scale, data, files, minScale, maxScale, indentation):
             elif vType == type(int()):
                 write(item + " " + str(value), scales, files, indentation)
 
+
 def parseVariable(value):
     var = VAR[value]
     if var[:9] == "VARIABLE:":
         var = parseVariable(var[9:])
         
     return var
+
 
 def scaleToScaleList(scale, minScale, maxScale):
     scales = {}
@@ -162,11 +176,13 @@ def scaleToScaleList(scale, minScale, maxScale):
 
     return scales
 
+
 def isScale(string):
     if re.match(r"[0-9]+(\:[0-9]+)*", string):
         return True
     else:
         return False
+
 
 def isScaleList(data):
     scale = False
@@ -178,6 +194,7 @@ def isScaleList(data):
                 return False
     return scale
 
+
 def closeTag(data):
     close = True
     for d in data:
@@ -188,12 +205,14 @@ def closeTag(data):
                 close = True
     return close
 
+
 def maximumScale(scales):
     maxScale = 0
     for scale in scales:
         if int(scale) > maxScale:
             maxScale = int(scale)
     return maxScale
+
 
 def minimumScale(scales):
     minScale = 99
@@ -202,14 +221,17 @@ def minimumScale(scales):
             minScale = int(scale)
     return minScale
 
+
 def addIndentation(string, n):
     for i in range (0, n):
         string += " "
     return string
 
+
 def substractIndentation(string, n):
     n = -n
     return string[:n]
+
 
 def write(string, scales, files, indentation):
     for value in scales:
@@ -231,8 +253,10 @@ def write(string, scales, files, indentation):
         else:
             files[value].write(indentation + string + "\n")
 
+
 def comment(string):
     return re.sub(r"##",  "#", string)
+
 
 def openLayerFiles(directory, scales):
     layerFiles = {}
@@ -241,13 +265,16 @@ def openLayerFiles(directory, scales):
         layerFiles[value] = layerfile
     return layerFiles
 
+
 def openMapFile(directory, name):  
     mapFile = codecs.open(directory + name + ".map", encoding='utf-8', mode="w+")
     return {"1": mapFile}
 
+
 def closeFiles(files):
     for value in files:
         files[value].close()
+
 
 def jsonToMap(content, outputDirectory, mapName, clean):
     global MAP, LAYERS, VAR, SCALES
@@ -279,6 +306,7 @@ def jsonToMap(content, outputDirectory, mapName, clean):
 
     write("END", {"1": None}, mapFile, "")
     closeFiles(mapFile)
+
 
 def string2json(string):
     #Remove the comments preceded by //
@@ -349,6 +377,7 @@ def string2json(string):
     #Add {" at the beginning of the string and return a valid JSON string
     return ("{\"" + t)
 
+
 def validateInput(scales, variables, map, groups):
     items = [scales, variables, map] + groups
     correct = True
@@ -366,6 +395,7 @@ def validateInput(scales, variables, map, groups):
                 print >> sys.stderr, error["value"]
 
     return correct
+
 
 def validateSyntax(content, name, variables=None):
     lines = content.split("\n")
@@ -481,6 +511,7 @@ def validateSyntax(content, name, variables=None):
 
     return (errors, line_errors)
 
+
 def matchingBrackets(string):
     iparens = iter('(){}[]<>')
     parens = dict(zip(iparens, iparens))
@@ -496,12 +527,14 @@ def matchingBrackets(string):
                 return False
     return not stack
 
+
 def list2dict(ls):
     dc = {}
     for item in ls:
         for key in item:
             dc[key] = item[key]
     return dc
+
 
 def main():
     global INDENTATION
@@ -609,6 +642,7 @@ def main():
     else:
         print >> sys.stderr, error
         sys.exit(2)
+
 
 if __name__ == "__main__":
     main()

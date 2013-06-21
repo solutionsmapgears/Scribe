@@ -546,9 +546,10 @@ def main():
     configFile = "config"
     clean = False
     error = ""
+    outputJSONFile = None
 
     try:                                
-        opts, args = getopt.getopt(sys.argv[1:], "i:o:n:cf:t:", ["input", "output", "name", "clean", "file","tabulation"])
+        opts, args = getopt.getopt(sys.argv[1:], "i:o:n:cf:t:j:", ["input", "output", "name", "clean", "file","tabulation", "json"])
     except getopt.GetoptError as err:
         print >> sys.stderr, str(err)                      
         sys.exit(2) 
@@ -566,6 +567,8 @@ def main():
             configFile = arg
         elif opt in ("-t", "--tabulation"):
             INDENTATION = int(arg)
+        elif opt in ("-j", "--json"):
+            outputJSONFile = arg
             
     if os.path.isfile(inputDirectory + "scales"):
         inputScalesFile = codecs.open(inputDirectory + "scales", encoding='utf-8')
@@ -633,6 +636,10 @@ def main():
         correct = validateInput(scales=scales, variables=variables, map=map, groups=groups)
         if correct == True:
             jsonContent = string2json(jsonInput)
+            if outputJSONFile is not None:
+                jFile = codecs.open(outputJSONFile, encoding='utf-8', mode="w+")
+                jFile.write(jsonContent.encode('utf-8'))
+                
             try:
                 jsonToMap(jsonContent, outputDirectory, mapName, clean)
             except ValueError:

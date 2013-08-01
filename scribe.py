@@ -513,7 +513,7 @@ def validateSyntax(content, name, variables=None):
 
 
 def matchingBrackets(string):
-    iparens = iter('(){}[]<>')
+    iparens = iter('{}')
     parens = dict(zip(iparens, iparens))
     closing = parens.values()
     line = 1

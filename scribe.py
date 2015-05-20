@@ -316,7 +316,7 @@ def string2json(string):
     t = re.sub(r"//.*", "", t)
     #Restore the strings between quotes
     for i in range (0, len(quotes)):
-        quote = re.sub(r"\"", re.escape("\\") + "\"", quotes[i].strip())
+        quote = quotes[i]
         t = re.sub(r"FLAGQUOTE",  quote, t, 1)
     #Remove the comments between /* and */
     t = re.sub(r"/\*.*?\t*?\*/", "", t, flags=re.DOTALL)

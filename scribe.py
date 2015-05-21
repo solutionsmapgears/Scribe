@@ -310,7 +310,7 @@ def jsonToMap(content, outputDirectory, mapName, clean):
 
 def string2json(string):
     #Remove the comments preceded by //
-    t = re.sub(r"//.*", "", string)
+    t = re.sub(ur'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|(?:[^/\n"\']|/[^/*\n"\'])+|\n)|(/\*  (?:[^*]|\*[^/])*\*/)|(?://(.*)$)$', lambda m: m.group(1), string, flags=re.MULTILINE)
     #Remove the comments between /* and */
     t = re.sub(r"/\*.*?\t*?\*/", "", t, flags=re.DOTALL)
     #Find and replace the comments preceded by ##

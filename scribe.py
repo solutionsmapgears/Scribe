@@ -309,15 +309,8 @@ def jsonToMap(content, outputDirectory, mapName, clean):
 
 
 def string2json(string):
-    #Find and replace anything between quotes to protect them from the next check
-    quotes = re.findall(r"['\"].*?['\"]", string)
-    t = re.sub(r"['\"].*?['\"]", "FLAGQUOTE", string)
     #Remove the comments preceded by //
-    t = re.sub(r"//.*", "", t)
-    #Restore the strings between quotes
-    for i in range (0, len(quotes)):
-        quote = quotes[i]
-        t = re.sub(r"FLAGQUOTE",  quote, t, 1)
+    t = re.sub(r"//.*", "", string)
     #Remove the comments between /* and */
     t = re.sub(r"/\*.*?\t*?\*/", "", t, flags=re.DOTALL)
     #Find and replace the comments preceded by ##

@@ -538,7 +538,9 @@ def list2dict(ls):
 
 def debugMapfile(outputDirectory, mapName, level):
     sub = subprocess.Popen('shp2img -m ' + outputDirectory + mapName + '.map -all_debug ' + str(level) + ' -o ' + outputDirectory + ' debug.png', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
-    logs = sub.stderr.read().strip() + sub.stdout.read().strip()
+    logs = 'Mapserver logs (debug level ' + str(level) + ')\n'
+    logs += '------------------------------\n'
+    logs += sub.stderr.read().strip() + sub.stdout.read().strip()
     print >> sys.stdout, logs
     return
 
@@ -651,7 +653,7 @@ def main():
                 
             try:
                 jsonToMap(jsonContent, outputDirectory, mapName, clean)
-                if(debugLevel >= 0 and debugLevel <= 5): #debug using shp2img
+                if debugLevel >= 0 and debugLevel <= 5: #debug using shp2img
                     debugMapfile(outputDirectory, mapName, debugLevel)
             except ValueError:
                 exc_traceback = sys.exc_info()[2]

@@ -21,6 +21,8 @@ python scribe.py -n outputmapname
     Other options
     -------------
         -c/--clean: If this option is specified, the layers from each scale level are included in the output mapfile with 'INCLUDE' tags. If not specified, the content of each scale level is outputted directly in the resulting mapfile.  
+        -d/--debug: The parameter is a number from 0 to 5. If this option is added, the output map will be verified with shp2img with
+        the specified debug level. A debug.png map will also be rendered and placed in the output directory.
     
 Input
 -----

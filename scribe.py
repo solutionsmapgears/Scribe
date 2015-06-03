@@ -2,6 +2,7 @@
 # -*- coding: iso-8859-1 -*-
 
 import json
+import subprocess
 import re
 import getopt, sys, traceback
 import os.path
@@ -535,6 +536,13 @@ def list2dict(ls):
             dc[key] = item[key]
     return dc
 
+def debugMapfile(outputDirectory, mapName, level):
+    sub = subprocess.Popen('shp2img -m ' + outputDirectory + mapName + '.map -all_debug ' + str(level) + ' -o ' + outputDirectory + ' debug.png', shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE) 
+    logs = 'Mapserver logs (debug level ' + str(level) + ')\n'
+    logs += '------------------------------\n'
+    logs += sub.stderr.read().strip() + sub.stdout.read().strip()
+    print >> sys.stdout, logs
+    return
 
 def main():
     global INDENTATION
@@ -547,9 +555,10 @@ def main():
     clean = False
     error = ""
     outputJSONFile = None
+    debugLevel = -1
 
     try:                                
-        opts, args = getopt.getopt(sys.argv[1:], "i:o:n:cf:t:j:", ["input", "output", "name", "clean", "file","tabulation", "json"])
+        opts, args = getopt.getopt(sys.argv[1:], "i:o:n:cf:t:j:d:", ["input", "output", "name", "clean", "file","tabulation", "json", "debug"])
     except getopt.GetoptError as err:
         print >> sys.stderr, str(err)                      
         sys.exit(2) 
@@ -569,6 +578,8 @@ def main():
             INDENTATION = int(arg)
         elif opt in ("-j", "--json"):
             outputJSONFile = arg
+        elif opt in ("-d", "--debug"):
+            debugLevel = int(arg)
             
     if os.path.isfile(inputDirectory + "scales"):
         inputScalesFile = codecs.open(inputDirectory + "scales", encoding='utf-8')
@@ -642,6 +653,8 @@ def main():
                 
             try:
                 jsonToMap(jsonContent, outputDirectory, mapName, clean)
+                if debugLevel >= 0 and debugLevel <= 5: #debug using shp2img
+                    debugMapfile(outputDirectory, mapName, debugLevel)
             except ValueError:
                 exc_traceback = sys.exc_info()[2]
                 print >> sys.stderr, "Uncatched syntax error :"
@@ -649,7 +662,7 @@ def main():
     else:
         print >> sys.stderr, error
         sys.exit(2)
-
+        
 
 if __name__ == "__main__":
     main()
